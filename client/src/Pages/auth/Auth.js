@@ -1,32 +1,37 @@
 import React, { useState } from 'react';
 import './Auth.css';
-// import Logo from '../../Img/logo.png';
+import Logo from '../../Img/logo.png';
 import { useDispatch, useSelector } from 'react-redux';
-// import { logIn, signUp } from '../../actions/AuthAction.js';
+import { logIn, signUp } from '../../actions/AuthAction.js';
+
 
 const Auth = () => {
-    // const [isSignup, setIsSignup] = useState(true);
+
     const [isSignUp, setIsSignUp] = useState(true);
     const dispatch = useDispatch();
-    const loading = useSelector((state)=>state.authReducer.loading);
+    const loading = useSelector((state) => state.authReducer.loading);
 
     const [data, setData] = useState({ firstname: "", lastname: "", email: "", password: "", confirmpass: "" });
 
     const [confirmPass, setConfirmPass] = useState(true);
 
     const handleChange = (e) => {
-        setData({ ...data, [e.target.name]: e.target.value });
+        setData({ ...data, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = (e) => {
+    const handlSubmit = (e) => {
         e.preventDefault();
-        if(isSignUp) {
-            // data.password === data.confirmpas ? dispatch(signUp(data)) : setConfirmPass(false);
+
+        if (isSignUp) {
+            data.password === data.confirmpass ? dispatch(signUp(data)) : setConfirmPass(false)
+        } else {
+            dispatch(logIn(data))
         }
     }
 
     const restForm = () => {
         setConfirmPass(true);
+
         setData({
             firstname: "",
             lastname: "",
@@ -41,7 +46,7 @@ const Auth = () => {
         //    Left Side
         <div className='Auth'>
             <div className="a-left">
-                {/* <img src={Logo} alt="" /> */}
+                <img src={Logo} alt="" style={{ width: 60, height: 45 }} />
                 <div className="Webname">
                     <h2>Welcome !</h2>
                     <h5>Explore the ideas throughout <br /> the world.</h5>
@@ -52,7 +57,7 @@ const Auth = () => {
             {/* Right Side */}
 
             <div className="a-right">
-                <form className='infoForm authForm' onSubmit={handleSubmit}>
+                <form className='infoForm authForm' onSubmit={handlSubmit}>
 
                     <h2>{isSignUp ? "Sign Up" : "Log In"}</h2>
 
@@ -117,3 +122,5 @@ const Auth = () => {
         </div>
     )
 }
+
+export default Auth
